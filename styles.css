@@ -152,6 +152,33 @@ body {
     }
 }
 
+/* Стили для интерактивной схемы тактов двигателя */
+.engine-animation .cycle-step {
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.engine-animation .cycle-step h4 {
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+
+.engine-animation .cycle-step p {
+    font-size: 0.95em;
+    color: var(--text);
+}
+
+.engine-animation .cycle-step.active {
+    border-color: var(--secondary);
+    background-color: rgba(52, 152, 219, 0.1); /* --secondary с прозрачностью */
+    transform: scale(1.03);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
 /* Трансмиссия */
 .loader .gear-animation {
     width: 200px;
@@ -196,6 +223,34 @@ body {
 @keyframes rotate {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+}
+
+/* Стили для интерактивной схемы переключения передач */
+.transmission-section .gear-animation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 10px;
+    min-height: 100px; /* Чтобы контейнер был виден */
+}
+
+.transmission-section .gear-box {
+    padding: 15px 20px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.transmission-section .gear-box:hover {
+    background-color: var(--secondary);
+    transform: translateY(-3px);
 }
 
 /* Ходовая часть */
@@ -295,19 +350,48 @@ body {
 }
 
 @keyframes pulse {
-    0% { transform: scaleX(1); opacity: 1; }
-    50% { transform: scaleX(1.2); opacity: 0.5; }
-    100% { transform: scaleX(1); opacity: 1; }
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
 }
 
-/* Тормозная система */
+/* Стили для интерактивной схемы электрооборудования */
+.electrical-section .circuit-demo {
+    display: flex;
+    justify-content: space-around; /* Равномерное распределение элементов */
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 10px;
+    min-height: 80px; /* Чтобы контейнер был виден */
+    flex-wrap: wrap; /* Перенос элементов на новую строку при необходимости */
+}
+
+.electrical-section .circuit-element {
+    padding: 10px 15px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.electrical-section .circuit-element:hover {
+    background-color: var(--accent);
+    transform: translateY(-3px);
+}
+
+/* Тормозная система (анимация загрузчика) */
 .loader .brake-animation {
     width: 200px;
     height: 200px;
     position: relative;
 }
 
-.brake-disc {
+.loader .brake-animation .brake-disc {
     width: 100px;
     height: 100px;
     background: #fff;
@@ -316,15 +400,15 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    animation: rotateBrakeDisc 2s linear infinite;
+    animation: loaderRotateBrakeDisc 2s linear infinite; /* Новое имя анимации */
 }
 
-@keyframes rotateBrakeDisc {
+@keyframes loaderRotateBrakeDisc { /* Новое имя анимации */
     from { transform: translate(-50%, -50%) rotate(0deg); }
     to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-.brake-caliper {
+.loader .brake-animation .brake-caliper {
     width: 120px;
     height: 40px;
     background: var(--accent);
@@ -333,12 +417,74 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 20px;
-    animation: squeeze 2s infinite;
+    animation: loaderSqueeze 2s infinite; /* Новое имя анимации */
 }
 
-@keyframes squeeze {
-    0%, 100% { width: 120px; }
-    50% { width: 110px; }
+@keyframes loaderSqueeze { /* Новое имя анимации */
+    0%, 100% { transform: translate(-50%, -50%) scaleY(1); } /* Добавил translate для точности */
+    50% { transform: translate(-50%, -50%) scaleY(0.8); } /* Добавил translate для точности */
+}
+
+/* Стили для интерактивной схемы тормозной системы */
+.brake-section .brake-system {
+    position: relative;
+    width: 300px; /* Ширина контейнера схемы */
+    height: 200px; /* Высота контейнера схемы */
+    margin: 30px auto;
+    padding: 20px;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 колонки для колес */
+    grid-template-rows: repeat(2, 1fr);    /* 2 ряда для колес */
+    gap: 20px;
+    place-items: center; /* Центрирование колес в ячейках грида */
+}
+
+.brake-section .brake-wheel {
+    width: 60px;
+    height: 60px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 0.8em;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2) inset; /* Эффект тени внутри колеса */
+}
+
+.brake-section .brake-wheel.active {
+    background-color: var(--accent); /* Цвет при торможении */
+    box-shadow: 0 0 15px rgba(231, 76, 60, 0.7); /* Свечение при торможении */
+}
+
+.brake-section .brake-pedal {
+    position: absolute;
+    bottom: -40px; /* Расположение под схемой колес */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 40px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.brake-section .brake-pedal::after {
+    content: "НАЖАТЬ";
+    font-weight: 600;
+}
+
+.brake-section .brake-pedal:hover {
+    background-color: var(--secondary);
 }
 
 /* Общие стили */
@@ -553,5 +699,60 @@ img.visible {
 
     .component-icon {
         margin: 0 auto;
+    }
+}
+
+/* Стили для демонстрации работы подвески на странице chassis.html */
+.chassis-section .suspension-animation {
+    position: relative;
+    width: 250px; /* Ширина демонстрации */
+    height: 150px; /* Высота демонстрации */
+    margin: 30px auto;
+    padding: 20px;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.chassis-section .car-body {
+    position: absolute;
+    width: 180px;
+    height: 60px;
+    background-color: var(--secondary);
+    border-radius: 10px 10px 0 0;
+    top: 30px; /* Положение кузова */
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    z-index: 1;
+}
+
+.chassis-section .wheel-animation {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    bottom: 20px; /* Начальное положение колес */
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    animation: wheelBounceDemo 1.5s infinite ease-in-out;
+}
+
+.chassis-section .wheel-animation.front {
+    left: 40px; /* Положение переднего колеса */
+    animation-delay: 0s;
+}
+
+.chassis-section .wheel-animation.rear {
+    right: 40px; /* Положение заднего колеса */
+    animation-delay: 0.2s; /* Небольшая задержка для асинхронности */
+}
+
+@keyframes wheelBounceDemo {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px); /* Высота подпрыгивания колеса */
     }
 } 
