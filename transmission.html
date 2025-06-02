@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Трансмиссия автомобиля</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        nav {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 3px;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+        .transmission-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .transmission-type {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Трансмиссия автомобиля</h1>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="engine.html">Двигатель</a>
+            <a href="transmission.html">Трансмиссия</a>
+            <a href="chassis.html">Ходовая часть</a>
+            <a href="electrical.html">Электрооборудование</a>
+            <a href="brakes.html">Тормозная система</a>
+        </nav>
+
+        <h2>Что такое трансмиссия?</h2>
+        <p>Трансмиссия - это система агрегатов и механизмов, которая передает крутящий момент от двигателя к ведущим колесам автомобиля.</p>
+        
+        <img src="https://images.unsplash.com/photo-1619771914272-e3c1ba17ba4d?auto=format&fit=crop&w=800" alt="Трансмиссия автомобиля">
+
+        <div class="transmission-types">
+            <div class="transmission-type">
+                <h3>Механическая коробка передач (МКПП)</h3>
+                <p>Классическая механическая коробка передач с ручным переключением. Обеспечивает максимальный контроль над автомобилем и экономичность.</p>
+            </div>
+
+            <div class="transmission-type">
+                <h3>Автоматическая коробка передач (АКПП)</h3>
+                <p>Автоматически переключает передачи без участия водителя. Обеспечивает комфортное управление автомобилем.</p>
+            </div>
+
+            <div class="transmission-type">
+                <h3>Роботизированная коробка передач</h3>
+                <p>Механическая коробка с автоматическим управлением. Сочетает преимущества МКПП и АКПП.</p>
+            </div>
+        </div>
+
+        <h2>Основные компоненты трансмиссии</h2>
+        <ul>
+            <li>Сцепление - обеспечивает плавное соединение и разъединение двигателя с коробкой передач</li>
+            <li>Коробка передач - изменяет передаточное число между двигателем и ведущими колесами</li>
+            <li>Карданная передача - передает крутящий момент к ведущему мосту</li>
+            <li>Главная передача - увеличивает крутящий момент и передает его к колесам</li>
+            <li>Дифференциал - распределяет крутящий момент между колесами</li>
+        </ul>
+    </div>
+</body>
+</html> 
