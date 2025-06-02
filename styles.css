@@ -44,22 +44,112 @@ body {
     width: 200px;
     height: 200px;
     position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.engine-block {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
 }
 
 .piston {
-    width: 40px;
-    height: 80px;
+    width: 30px;
+    height: 60px;
     background: #fff;
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    animation: pistonMove 2s infinite ease-in-out;
+    border-radius: 5px;
 }
 
-@keyframes pistonMove {
-    0%, 100% { transform: translate(-50%, -80%); }
-    50% { transform: translate(-50%, -20%); }
+.piston::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 10px;
+    background: var(--accent);
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+}
+
+.piston:nth-child(1) {
+    left: 20px;
+    animation: pistonMove1 1.2s infinite ease-in-out;
+}
+
+.piston:nth-child(2) {
+    left: 65px;
+    animation: pistonMove2 1.2s infinite ease-in-out;
+}
+
+.piston:nth-child(3) {
+    left: 110px;
+    animation: pistonMove3 1.2s infinite ease-in-out;
+}
+
+.spark {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.spark:nth-child(1) { top: 30px; left: 35px; animation: sparkle 1.2s infinite 0.2s; }
+.spark:nth-child(2) { top: 30px; left: 80px; animation: sparkle 1.2s infinite 0.6s; }
+.spark:nth-child(3) { top: 30px; left: 125px; animation: sparkle 1.2s infinite 1s; }
+
+@keyframes pistonMove1 {
+    0%, 100% { transform: translateY(-20px); }
+    50% { transform: translateY(20px); }
+}
+
+@keyframes pistonMove2 {
+    0%, 100% { transform: translateY(20px); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes pistonMove3 {
+    0%, 100% { transform: translateY(-20px); }
+    50% { transform: translateY(20px); }
+}
+
+@keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+}
+
+.smoke {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    top: 20px;
+}
+
+.smoke:nth-child(1) { left: 35px; animation: smoke 2s infinite 0.2s; }
+.smoke:nth-child(2) { left: 80px; animation: smoke 2s infinite 0.8s; }
+.smoke:nth-child(3) { left: 125px; animation: smoke 2s infinite 1.4s; }
+
+@keyframes smoke {
+    0% { 
+        opacity: 0.8;
+        transform: translateY(0) scale(1);
+    }
+    100% { 
+        opacity: 0;
+        transform: translateY(-50px) scale(3);
+    }
 }
 
 /* Трансмиссия */
