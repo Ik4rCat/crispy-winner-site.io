@@ -4,64 +4,364 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тормозная система автомобиля</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+        * {
             margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
+            padding: 0;
+            box-sizing: border-box;
         }
+        
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --text: #34495e;
+            --bg: #f5f7fa;
+            --accent: #e74c3c;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            background: var(--bg);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        .loader.hidden {
+            transform: translateY(-100%);
+        }
+
+        .loader .brake-animation {
+            width: 200px;
+            height: 200px;
+            position: relative;
+        }
+
+        .brake-disc {
+            width: 100px;
+            height: 100px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate 2s linear infinite;
+        }
+
+        .brake-caliper {
+            width: 120px;
+            height: 40px;
+            background: var(--accent);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 20px;
+            animation: squeeze 2s infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes squeeze {
+            0%, 100% { width: 120px; }
+            50% { width: 110px; }
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.7, 0, 0.3, 1);
         }
+
+        .container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         nav {
-            background-color: #333;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.7, 0, 0.3, 1) 0.3s;
         }
+
+        nav.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         nav a {
             color: white;
             text-decoration: none;
-            padding: 10px 15px;
-            margin: 5px;
-            border-radius: 3px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
         }
-        nav a:hover {
-            background-color: #555;
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
         }
-        h1, h2 {
-            color: #333;
+
+        nav a:hover::before {
+            width: 300px;
+            height: 300px;
         }
+
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+            opacity: 0;
+            transform: translateY(-30px);
+            transition: all 0.8s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        h1.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transition: width 0.8s cubic-bezier(0.7, 0, 0.3, 1) 1s;
+        }
+
+        h1.visible::after {
+            width: 100px;
+        }
+
+        .brake-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.7, 0, 0.3, 1) 0.6s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brake-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(52, 152, 219, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .brake-section:hover::before {
+            transform: translateX(100%);
+        }
+
+        .brake-section.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .brake-component {
+            position: relative;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.02);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brake-component:hover {
+            background: rgba(0, 0, 0, 0.05);
+            transform: translateX(10px);
+        }
+
+        .component-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .brake-component:hover .component-icon {
+            background: var(--accent);
+            transform: rotate(360deg);
+        }
+
+        .component-info {
+            flex: 1;
+        }
+
+        .component-info h3 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .brake-system {
+            width: 100%;
+            height: 300px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brake-pedal {
+            width: 60px;
+            height: 120px;
+            background: var(--primary);
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .brake-pedal:hover {
+            transform: translateX(-50%) translateY(20px);
+            background: var(--accent);
+        }
+
+        .brake-line {
+            position: absolute;
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .brake-line.active {
+            background: var(--accent);
+        }
+
+        .brake-wheel {
+            width: 80px;
+            height: 80px;
+            background: var(--secondary);
+            border-radius: 50%;
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        .brake-wheel.front-left { top: 50px; left: 100px; }
+        .brake-wheel.front-right { top: 50px; right: 100px; }
+        .brake-wheel.rear-left { bottom: 50px; left: 100px; }
+        .brake-wheel.rear-right { bottom: 50px; right: 100px; }
+
+        .brake-wheel.active {
+            transform: scale(0.9);
+            background: var(--accent);
+        }
+
         img {
             max-width: 100%;
             height: auto;
             display: block;
-            margin: 20px auto;
+            margin: 30px auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s cubic-bezier(0.7, 0, 0.3, 1) 0.9s;
         }
-        .brake-type {
-            margin: 20px 0;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
+
+        img.visible {
+            opacity: 1;
+            transform: scale(1);
         }
-        .warning {
-            background-color: #fff3cd;
-            border: 1px solid #ffeeba;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 5px;
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+
+            .brake-component {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .component-icon {
+                margin: 0 auto;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="loader">
+        <div class="brake-animation">
+            <div class="brake-disc"></div>
+            <div class="brake-caliper"></div>
+        </div>
+    </div>
+
     <div class="container">
         <h1>Тормозная система автомобиля</h1>
         <nav>
@@ -73,61 +373,137 @@
             <a href="brakes.html">Тормозная система</a>
         </nav>
 
-        <h2>Назначение тормозной системы</h2>
-        <p>Тормозная система - один из важнейших элементов безопасности автомобиля, предназначенный для снижения скорости и полной остановки транспортного средства.</p>
-        
-        <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=800" alt="Тормозная система автомобиля">
-
-        <div class="brake-type">
-            <h3>Рабочая тормозная система</h3>
-            <p>Основная система торможения, включающая:</p>
-            <ul>
-                <li>Тормозной привод (гидравлический или пневматический)</li>
-                <li>Тормозные механизмы (дисковые или барабанные)</li>
-                <li>Усилитель тормозов</li>
-                <li>Тормозную жидкость</li>
-            </ul>
+        <div class="brake-section">
+            <h2>Тормозная система</h2>
+            <p>Тормозная система - один из важнейших элементов безопасности автомобиля. Она обеспечивает снижение скорости и полную остановку транспортного средства, а также удержание его в неподвижном состоянии.</p>
+            <img src="img/brake-system.png" alt="Тормозная система автомобиля">
         </div>
 
-        <div class="brake-type">
-            <h3>Стояночная тормозная система</h3>
-            <p>Обеспечивает неподвижность автомобиля на стоянке:</p>
-            <ul>
-                <li>Механический привод</li>
-                <li>Тросы стояночного тормоза</li>
-                <li>Рычаг или педаль стояночного тормоза</li>
-            </ul>
+        <div class="brake-section">
+            <h2>Основные компоненты</h2>
+            
+            <div class="brake-component">
+                <div class="component-icon">🦶</div>
+                <div class="component-info">
+                    <h3>Педаль тормоза</h3>
+                    <p>Механизм, преобразующий усилие ноги водителя в давление в тормозной системе.</p>
+                </div>
+            </div>
+
+            <div class="brake-component">
+                <div class="component-icon">💨</div>
+                <div class="component-info">
+                    <h3>Главный тормозной цилиндр</h3>
+                    <p>Создает давление в тормозной системе при нажатии на педаль тормоза.</p>
+                </div>
+            </div>
+
+            <div class="brake-component">
+                <div class="component-icon">⭕</div>
+                <div class="component-info">
+                    <h3>Тормозные диски</h3>
+                    <p>Вращающиеся элементы, к которым прижимаются тормозные колодки для создания тормозного усилия.</p>
+                </div>
+            </div>
+
+            <div class="brake-component">
+                <div class="component-icon">🔧</div>
+                <div class="component-info">
+                    <h3>Тормозные колодки</h3>
+                    <p>Фрикционные элементы, которые прижимаются к тормозным дискам для создания тормозного усилия.</p>
+                </div>
+            </div>
         </div>
 
-        <div class="brake-type">
-            <h3>Вспомогательные тормозные системы</h3>
-            <p>Дополнительные системы торможения:</p>
-            <ul>
-                <li>Антиблокировочная система (ABS)</li>
-                <li>Система распределения тормозных усилий (EBD)</li>
-                <li>Система экстренного торможения (BAS)</li>
-            </ul>
+        <div class="brake-section">
+            <h2>Демонстрация работы тормозной системы</h2>
+            <div class="brake-system">
+                <div class="brake-wheel front-left"></div>
+                <div class="brake-wheel front-right"></div>
+                <div class="brake-wheel rear-left"></div>
+                <div class="brake-wheel rear-right"></div>
+                <div class="brake-pedal"></div>
+            </div>
         </div>
-
-        <div class="warning">
-            <h3>Важно!</h3>
-            <p>Регулярное обслуживание тормозной системы включает:</p>
-            <ul>
-                <li>Проверку уровня и состояния тормозной жидкости</li>
-                <li>Осмотр тормозных колодок и дисков</li>
-                <li>Проверку работы стояночного тормоза</li>
-                <li>Диагностику электронных систем безопасности</li>
-            </ul>
-        </div>
-
-        <h2>Признаки неисправности тормозной системы</h2>
-        <ul>
-            <li>Увеличенный ход педали тормоза</li>
-            <li>Скрип или писк при торможении</li>
-            <li>Вибрация педали тормоза</li>
-            <li>Увод автомобиля в сторону при торможении</li>
-            <li>Горение контрольных ламп на приборной панели</li>
-        </ul>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Начальная анимация загрузки
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('hidden');
+            }, 2000);
+
+            // Функция для проверки видимости элемента
+            function isElementInViewport(el) {
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+
+            // Функция для анимации элементов при скролле
+            function animateOnScroll() {
+                const elements = document.querySelectorAll('.container, nav, h1, .brake-section, img');
+                
+                elements.forEach(element => {
+                    if (isElementInViewport(element)) {
+                        element.classList.add('visible');
+                    }
+                });
+            }
+
+            // Запуск анимаций после загрузки
+            setTimeout(() => {
+                document.querySelector('.container').classList.add('visible');
+                document.querySelector('nav').classList.add('visible');
+                document.querySelector('h1').classList.add('visible');
+                document.querySelectorAll('.brake-section, img').forEach(el => {
+                    el.classList.add('visible');
+                });
+            }, 2300);
+
+            // Анимация тормозной системы
+            const brakePedal = document.querySelector('.brake-pedal');
+            const brakeWheels = document.querySelectorAll('.brake-wheel');
+
+            brakePedal.addEventListener('mousedown', () => {
+                brakePedal.style.transform = 'translateX(-50%) translateY(20px)';
+                brakePedal.style.background = 'var(--accent)';
+                
+                brakeWheels.forEach(wheel => {
+                    wheel.classList.add('active');
+                });
+            });
+
+            brakePedal.addEventListener('mouseup', () => {
+                brakePedal.style.transform = 'translateX(-50%)';
+                brakePedal.style.background = 'var(--primary)';
+                
+                brakeWheels.forEach(wheel => {
+                    wheel.classList.remove('active');
+                });
+            });
+
+            // Обработчики событий
+            window.addEventListener('scroll', animateOnScroll);
+            window.addEventListener('resize', animateOnScroll);
+
+            // Анимация при наведении на навигацию
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('mouseover', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    this.style.setProperty('--x', `${x}px`);
+                    this.style.setProperty('--y', `${y}px`);
+                });
+            });
+        });
+    </script>
 </body>
 </html> 
